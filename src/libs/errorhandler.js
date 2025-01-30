@@ -29,8 +29,9 @@ export const errorHandler = (error, req, res, next) => {
   }
 
   // Catch-all for unexpected errors
-  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    error: "Internal Server Error",
-    message: "An unexpected error occurred."
+  if(error)
+  res.status(StatusCodes.UNAUTHORIZED).json({
+    error: "Authorized Error",
+    message: error.message,
   });
 };

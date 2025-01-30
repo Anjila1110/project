@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { getAllUserService, loginUserService, registerUserService } from "../services/user.service.js";
+import { deleteAllUserService, getAllUserService, loginUserService, registerUserService } from "../services/user.service.js";
 
 export const getAllUserController = async (req, res) => {
   try {
@@ -30,3 +30,13 @@ export const userLoginController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteUserController = async(req,res,next)=>{
+  try {
+    const data = await deleteAllUserService(req.body);
+    res.status(StatusCodes.ACCEPTED).json(data);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}
