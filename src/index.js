@@ -1,23 +1,22 @@
-import express from "express"
-import 'dotenv/config'
-import statusCodes from "http-status-codes"
-import userRouter from "./routes/user.routes.js"
-import { errorHandler } from "./libs/errorhandler.js"
-import bodyParser from "body-parser"
-import { connectDB } from "./db/index.js"
-const app = express()
-const PORT = process.env.PORT
-console.log(PORT)
+import express from "express";
+import "dotenv/config";
+import statusCodes from "http-status-codes";
+import userRouter from "./routes/user.routes.js";
+import bodyParser from "body-parser";
+import { errorHandler } from "./libs/errorhandler.js";
 
-app.use(bodyParser.json())
-app.get('/',(req,res) =>{
-    res.status(statusCodes.OK).json({message: "Welcome to my app"})
-})
+const app = express();
+const PORT = process.env.PORT;
 
-app.use('/api/users',userRouter);
-app.use(errorHandler)
+app.use(bodyParser.json());
+app.get("/", (req, res) => {
+  res.status(statusCodes.OK).json({ message: "Welcome to my app" });
+});
 
-app.listen(PORT, ()=>{
-    console.log(`Server is runnning at port ${PORT}`)
-    connectDB();
-})
+app.use("/api/users", userRouter);
+
+app.use(errorHandler);
+
+app.listen(PORT, async () => {
+  console.log(`Server running at port ${PORT}`);
+});
