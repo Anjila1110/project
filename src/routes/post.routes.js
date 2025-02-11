@@ -1,19 +1,15 @@
 import { Router } from "express";
-import { getAllPostsController } from "../controllers/postcontroller.js";
+import { createPostController, DeletePostByIdController, getAllPostsController, getPostByIdController, getPostByUserIdController, UpdatePostController } from "../controllers/postcontroller.js";
+import { authMiddleware } from "../middleware.js/authMiddleware.js";
 
 //api/posts
 const postRouter = Router();
 
-postRouter.route("/").get(getAllPostsController)
-// .post(createPostController);
-// postRouter.route("/:postId")
-// .get(getPostByIdController)
-// .patch(updatePostController)
-// .delete(deletePostController);
-
-
-// postRouter.post("/:postId", getPostByIdController);
-// postRouter.patch("/:postId", updatePostController);
-// postRouter.delete("/:postId", deletePostController);
-
+postRouter.route("/").get(authMiddleware,getAllPostsController)
+postRouter.post("/",authMiddleware,createPostController);
+postRouter.route("/:postId").get(authMiddleware,getPostByIdController);
+postRouter.route("/user/:userId").get(authMiddleware,getPostByUserIdController);
+postRouter.patch("/:postId", authMiddleware,UpdatePostController);
+// postRouter.route("/:postId").delete(authMiddleware,DeletePostByIdController);
+postRouter.delete("/:postId",authMiddleware,DeletePostByIdController);
 export default postRouter;

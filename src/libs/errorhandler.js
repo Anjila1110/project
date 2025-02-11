@@ -47,13 +47,26 @@ export const errorHandler = (error, req, res, next) => {
     res
       .status(StatusCodes.BAD_REQUEST)
       .json({ error: "Invalid data", message: errorMessages });
+      
   }
-
+  if (error?.cause == "UnauthorizedCustomError") {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      error: "Unauthorized error!!",
+      message: error.message,
+    });
+  }
+  if (error?.cause == "NotFoundCustomError") {
+    res.status(StatusCodes.UNAUTHORIZED).json({
+      error: "No posts!",
+      message: error.message,
+    });
+  }
   // Catch-all for unexpected errors
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     error: "Internal Server Error",
     message: "An unexpected error occurred!!!.",
   });
+  return;
 };
   // if(error instanceof ZodError){
   //   res.status(StatusCodes.BAD_REQUEST).json({

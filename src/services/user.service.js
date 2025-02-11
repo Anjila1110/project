@@ -63,3 +63,14 @@ export const deleteAllUserService = async(userData)=>{
   console.log(userData);
   return await prisma.user.deleteMany({where:{fullName: userData.fullName}})
 }
+export const userProfileService = async (userId) => {
+  console.log(userId);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    omit: { password: true },
+  });
+  return user;
+};
